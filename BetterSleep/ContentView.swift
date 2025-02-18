@@ -35,14 +35,14 @@ struct ContentView: View {
                 ).ignoresSafeArea()
                 Form {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("When do you want to wake up ?")
+                        Text("When do you want to wake up ?").font(.headline)
                         DatePicker(
                             "Please enter wake up time", selection: $wakeUp,
                             displayedComponents: .hourAndMinute
                         ).labelsHidden()
                     }
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Desired amount of sleep")
+                        Text("Desired amount of sleep").font(.headline)
                         Stepper(
                             "\(sleepAmount.formatted()) hours",
                             value: $sleepAmount,
@@ -51,7 +51,7 @@ struct ContentView: View {
                         )
                     }
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Daily coffee intake")
+                        Text("Daily coffee intake").font(.headline)
                         Picker(
                             "Coffe cups",
                             selection: $coffeeAmount
@@ -63,7 +63,9 @@ struct ContentView: View {
                     }
 
                     if !alertMessage.isEmpty {
-                        Section("Your ideal bedtime is") {
+                        Section(header: Text("Your Ideal Bedtime Is:")
+                            .foregroundColor(.primary)
+                            .font(.headline)) {
                             Text(
                                 alertMessage
                             )
