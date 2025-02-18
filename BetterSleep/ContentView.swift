@@ -25,12 +25,13 @@ struct ContentView: View {
             ZStack {
                 RadialGradient(
                     stops: [
+
                         .init(color: .gray, location: 0.5),
-                        .init(color: .white, location: 0.5)
+                        .init(color: .white, location: 0.5),
                     ],
-                    center: .bottomTrailing,
-                    startRadius: 320,
-                    endRadius: 350
+                    center: .init(x: 0.1, y: 1),
+                    startRadius: 400,
+                    endRadius: 500
                 ).ignoresSafeArea()
                 Form {
                     VStack(alignment: .leading, spacing: 10) {
@@ -55,7 +56,7 @@ struct ContentView: View {
                             "Coffe cups",
                             selection: $coffeeAmount
                         ) {
-                            ForEach(1..<24) {
+                            ForEach(1..<25) {
                                 Text("\($0)").tag($0)
                             }
                         }
@@ -69,7 +70,7 @@ struct ContentView: View {
                         }
                     }
                 }.scrollContentBackground(.hidden).background(
-                    .ultraThinMaterial
+                    Color.clear
                 )
             }.navigationTitle("Better Sleep").toolbar {
                 Button("Calculate", action: calculateBedTime)
