@@ -11,7 +11,6 @@ struct ContentView: View {
     @State private var wakeUp = defaultWakeUp
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
-    @State private var alertShow = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     static var defaultWakeUp: Date {
@@ -33,55 +32,57 @@ struct ContentView: View {
                     startRadius: 400,
                     endRadius: 500
                 ).ignoresSafeArea()
-                Form {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("When do you want to wake up ?").font(.headline)
-                        DatePicker(
-                            "Please enter wake up time", selection: $wakeUp,
-                            displayedComponents: .hourAndMinute
-                        ).labelsHidden()
-                    }
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Desired amount of sleep").font(.headline)
-                        Stepper(
-                            "\(sleepAmount.formatted()) hours",
-                            value: $sleepAmount,
-                            in: 6...12,
-                            step: 0.25
-                        )
-                    }
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Daily coffee intake").font(.headline)
-                        Picker(
-                            "Coffe cups",
-                            selection: $coffeeAmount
-                        ) {
-                            ForEach(1..<25) {
-                                Text("\($0)").tag($0)
+                VStack{
+                    Form {
+                        Section {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("When do you want to wake up ?").font(
+                                    .headline)
+                                DatePicker(
+                                    "Please enter wake up time", selection: $wakeUp,
+                                    displayedComponents: .hourAndMinute
+                                ).labelsHidden()
+                            }
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Desired amount of sleep").font(.headline)
+                                Stepper(
+                                    "\(sleepAmount.formatted()) hours",
+                                    value: $sleepAmount,
+                                    in: 6...12,
+                                    step: 0.25
+                                )
+                            }
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Daily coffee intake").font(.headline)
+                                Picker(
+                                    "Coffe cups",
+                                    selection: $coffeeAmount
+                                ) {
+                                    ForEach(1..<25) {
+                                        Text("\($0)").tag($0)
+                                    }
+                                }
                             }
                         }
-                    }
+                        Button("Calculate", action: calculateBedTime)
+                            .font(.title3)
 
-                    if !alertMessage.isEmpty {
-                        Section(header: Text("Your Ideal Bedtime Is:")
-                            .foregroundColor(.primary)
-                            .font(.headline)) {
-                            Text(
-                                alertMessage
-                            )
+                        if !alertMessage.isEmpty {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(alertTitle)
+                                    .foregroundColor(.primary)
+                                    .font(.headline)
+                                Text(
+                                    alertMessage
+                                ).font(.largeTitle)
+                            }
                         }
-                    }
-                }.scrollContentBackground(.hidden).background(
-                    Color.clear
-                )
-            }.navigationTitle("Better Sleep").toolbar {
-                Button("Calculate", action: calculateBedTime)
-            }.alert(alertTitle, isPresented: $alertShow) {
-                Button("OK") {
+                    }.scrollContentBackground(.hidden).background(
+                        Color.clear
+                    )
+
                 }
-            } message: {
-                Text(alertMessage)
-            }
+            }.navigationTitle("Better Sleep")
         }
     }
 
@@ -111,7 +112,6 @@ struct ContentView: View {
             alertTitle = "Error something went wrong"
             alertMessage = "Counldnt calculate you bedtime, Please try again."
         }
-        alertShow = true
     }
 }
 
